@@ -3,7 +3,7 @@
 
 #include <NeoPixelBus.h>
 #define NUMBER_OF_PIXELS  8
-#define LED_PIN           D6//this is ignored
+#define LED_PIN           D6
 
 
 class Leds {

@@ -1,14 +1,12 @@
 //Uncomment this to see additional debugging information
-//#define DEBUG_LANTERN   true
+#define DEBUG_LANTERN   true
 
 #include <SoftwareSerial.h>
 #include "PMS3003A.h"
 #include "leds.h"
-#include "visualizer.h"
 
 PMS3003A sensor;
 Leds leds;
-Visualizer visualizer;
 
 // D5: Software Serial Rx
 // D7: Software Serial Tx - dont connect
@@ -24,7 +22,6 @@ void setup() {
   
   setup_PMS();
   leds.setup();
-  visualizer.setup(sensor, leds);
 }
 
 void setup_PMS() {
@@ -55,5 +52,20 @@ void loop_PMS() {
 
 void loop() {
   loop_PMS();
-  visualizer.loop();
+
+  if (sensor.pm2_5 < 30) {
+    // air is good
+    Serial.println("air is good. :-)");
+    leds.setColor(0, 30, 0);
+  } else if (sensor.pm2_5 < 60) {
+    // air is not so good
+    Serial.println("air is so-la-la. :-|");
+    leds.setColor(77, 40, 10);
+  } else {
+    Serial.println("air is bad. :(");
+    // air is bad
+    leds.setColor(30, 0, 0);
+  }
+ 
+  
 }
